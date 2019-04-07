@@ -1,12 +1,37 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include"HH_constants.h"
+#include"constants.h"
+#include<iostream>
+
+#include"Neuron.h"
+
+using namespace std;
+
+
+
 
 int main(void){
-  printf("constants of membrane capacitance: %f\n",ci);
-  printf("constants of gA1: %f\n ",gA1);
 
-  for (int i=0;i<3;i++) printf("IA_in[%d]: %f ",i,IA_in[i]);
-  printf("\n");
+    neuron facial = neuron(-70.0,20);
+    neuron facial2;
+
+    facial.getVoltage();
+    facial.getSpikenum();
+
+    cout<<"excitatory inputs"<<endl;
+    facial.updateVoltage(-20.0);
+    facial.updateSpike(30);
+
+    facial.getVoltage();
+    facial.getSpikenum();
+
+    facial2.getVoltage();
+    facial2.getSpikenum();
+
+    facial2.updateVoltage(-5.0);
+    facial2.updateSpike(8);
+
+    facial2.getVoltage();
+    facial2.getSpikenum();
   return EXIT_SUCCESS;
 }
