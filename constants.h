@@ -17,7 +17,7 @@ const float Ek = -105.0;
 const float EIh = -43.0;
 
 // conductance of leak channels for resting membrane potential (nS)
-const float gleakNa = 8.0;
+const float gleakNa = 6.0;
 const float gleakK = 15.0;
 
 // conductance of Ih channels

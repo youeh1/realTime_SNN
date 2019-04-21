@@ -2,36 +2,55 @@
 #include<stdlib.h>
 #include"constants.h"
 #include<iostream>
+#include"channels.h"
+#include<fstream>
 
-#include"Neuron.h"
+// #include"Neuron.h"
 
 using namespace std;
 
 
-
+// 0.1ms timestep simulation
+// injection current update?
 
 int main(void){
 
-    neuron facial = neuron(-70.0,20);
-    neuron facial2;
+  int stimtime = 1000/dt; // 1000ms dt =0.1
+  float *voltage = new float[stimtime];
+  float injection,dvdt,iK,iNa;
+  voltage[0] = -72.0;
 
-    facial.getVoltage();
-    facial.getSpikenum();
+  // writing a txt file so that julia can read this file to plot a graph
 
-    cout<<"excitatory inputs"<<endl;
-    facial.updateVoltage(-20.0);
-    facial.updateSpike(30);
+  ofstream data("data.txt",ios::out);
 
-    facial.getVoltage();
-    facial.getSpikenum();
+  for (int i=0;i<stimtime-1;i++){
 
-    facial2.getVoltage();
-    facial2.getSpikenum();
+    if(i>2000 && i<5000){
+      injection = 100.0;
+    }
+    else{
+      injection = 0.0;
+    }
+    iNa = iNa_leak(voltage[i]);
+    iK = iK_leak(voltage[i]);
 
-    facial2.updateVoltage(-5.0);
-    facial2.updateSpike(8);
+    dvdt = (injection -(iNa+iK))/ci;
 
-    facial2.getVoltage();
-    facial2.getSpikenum();
+    voltage[i+1] = voltage[i] + dvdt*dt;
+    cout<<voltage[i];
+    data<<voltage[i]<<endl;
+
+
+  }
+  data<<endl;
+  data.close();
+  delete[] voltage;
+
+  cout<<"now reading the data.bin"<< sizeof(voltage)<<endl;
+
+
+
+
   return EXIT_SUCCESS;
 }
